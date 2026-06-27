@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfect Stock Market Predictor - Error-Free Experience</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <h1>📈 Perfect Stock Market Predictor</h1>
+                <p>Bulletproof Search • AI Predictions • Real-Time Data</p>
+                
+                <div class="api-status-bar">
+                    <div class="status-item">
+                        <span class="status-label">API Status:</span>
+                        <span id="api-status" class="status-value connecting">
+                            <span class="status-dot"></span>
+                            Connecting...
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Data Quality:</span>
+                        <span id="data-quality" class="status-value high">
+                            <span class="quality-indicator"></span>
+                            Excellent
+                        </span>
+                    </div>
+                    <div class="status-item">
+                        <span class="status-label">Last Update:</span>
+                        <span id="last-update" class="status-value">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="container">
+                <!-- Search Section -->
+                <section class="search-section">
+                    <div class="search-container">
+                        <h2>🔍 Search Any Stock Symbol</h2>
+                        <div class="search-wrapper">
+                            <div class="search-input-group">
+                                <input 
+                                    type="text" 
+                                    id="stock-search" 
+                                    class="form-control search-input" 
+                                    placeholder="Enter stock symbol (e.g., AAPL, MSFT, GOOGL)" 
+                                    autocomplete="off"
+                                    maxlength="10"
+                                />
+                                <div class="search-indicators">
+                                    <span id="search-validation" class="validation-icon">🔍</span>
+                                    <div id="search-loader" class="search-loader hidden">
+                                        <div class="loader-spinner"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="search-btn" class="btn btn--primary search-btn">
+                                <span id="search-btn-text">Search</span>
+                                <span id="search-btn-loader" class="btn-loader hidden"></span>
+                            </button>
+                        </div>
+                        
+                        <!-- Search Suggestions -->
+                        <div id="search-suggestions" class="search-suggestions hidden">
+                            <div class="suggestions-header">Search Suggestions</div>
+                            <div id="suggestions-list" class="suggestions-list"></div>
+                        </div>
+
+                        <!-- Search Status -->
+                        <div id="search-status" class="search-status hidden">
+                            <div class="status-message" id="status-message"></div>
+                            <div class="status-actions" id="status-actions"></div>
+                        </div>
+                    </div>
+
+                    <!-- Popular Stocks -->
+                    <div class="popular-stocks">
+                        <h3>🔥 Popular Stocks - Click to Analyze</h3>
+                        <div class="stock-chips-container">
+                            <button class="stock-chip active" data-symbol="AAPL" data-name="Apple Inc.">
+                                <span class="chip-icon">📱</span>
+                                <span class="chip-symbol">AAPL</span>
+                                <span class="chip-name">Apple</span>
+                            </button>
+                            <button class="stock-chip" data-symbol="MSFT" data-name="Microsoft Corporation">
+                                <span class="chip-icon">💻</span>
+                                <span class="chip-symbol">MSFT</span>
+                                <span class="chip-name">Microsoft</span>
+                            </button>
+                            <button class="stock-chip" data-symbol="GOOGL" data-name="Alphabet Inc.">
+                                <span class="chip-icon">🔍</span>
+                                <span class="chip-symbol">GOOGL</span>
+                                <span class="chip-name">Google</span>
+                            </button>
+                            <button class="stock-chip" data-symbol="TSLA" data-name="Tesla Inc.">
+                                <span class="chip-icon">🚗</span>
+                                <span class="chip-symbol">TSLA</span>
+                                <span class="chip-name">Tesla</span>
+                            </button>
+                            <button class="stock-chip" data-symbol="NVDA" data-name="NVIDIA Corporation">
+                                <span class="chip-icon">🎮</span>
+                                <span class="chip-symbol">NVDA</span>
+                                <span class="chip-name">NVIDIA</span>
+                            </button>
+                            <button class="stock-chip" data-symbol="AMZN" data-name="Amazon.com Inc.">
+                                <span class="chip-icon">📦</span>
+                                <span class="chip-symbol">AMZN</span>
+                                <span class="chip-name">Amazon</span>
+                            </button>
+                            <button class="stock-chip" data-symbol="META" data-name="Meta Platforms Inc.">
+                                <span class="chip-icon">👥</span>
+                                <span class="chip-symbol">META</span>
+                                <span class="chip-name">Meta</span>
+                            </button>
+                            <button class="stock-chip" data-symbol="JPM" data-name="JPMorgan Chase & Co.">
+                                <span class="chip-icon">🏦</span>
+                                <span class="chip-symbol">JPM</span>
+                                <span class="chip-name">JPMorgan</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Loading Progress -->
+                <section id="loading-progress" class="loading-progress hidden">
+                    <div class="progress-container">
+                        <h3>🚀 Loading Stock Analysis</h3>
+                        <div class="progress-steps">
+                            <div class="progress-step" id="step-validation">
+                                <div class="step-icon">🔍</div>
+                                <div class="step-content">
+                                    <div class="step-title">Validating Symbol</div>
+                                    <div class="step-status">Checking...</div>
+                                </div>
+                            </div>
+                            <div class="progress-step" id="step-quote">
+                                <div class="step-icon">💰</div>
+                                <div class="step-content">
+                                    <div class="step-title">Fetching Quote</div>
+                                    <div class="step-status">Waiting...</div>
+                                </div>
+                            </div>
+                            <div class="progress-step" id="step-history">
+                                <div class="step-icon">📊</div>
+                                <div class="step-content">
+                                    <div class="step-title">Loading History</div>
+                                    <div class="step-status">Waiting...</div>
+                                </div>
+                            </div>
+                            <div class="progress-step" id="step-indicators">
+                                <div class="step-icon">🔬</div>
+                                <div class="step-content">
+                                    <div class="step-title">Calculating Indicators</div>
+                                    <div class="step-status">Waiting...</div>
+                                </div>
+                            </div>
+                            <div class="progress-step" id="step-prediction">
+                                <div class="step-icon">🤖</div>
+                                <div class="step-content">
+                                    <div class="step-title">AI Prediction</div>
+                                    <div class="step-status">Waiting...</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div id="progress-fill" class="progress-fill"></div>
+                        </div>
+                        <div class="progress-text">
+                            <span id="progress-percentage">0%</span>
+                            <span id="progress-message">Starting analysis...</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stock Analysis Results -->
+                <section id="stock-analysis" class="stock-analysis hidden">
+                    <!-- Stock Overview Card -->
+                    <div class="analysis-card overview-card">
+                        <div class="card-header">
+                            <h2 id="stock-symbol">AAPL</h2>
+                            <div class="stock-badges">
+                                <span class="status status--success" id="data-status">🟢 Live Data</span>
+                                <span class="status status--info" id="market-status">📊 Market Open</span>
+                            </div>
+                        </div>
+                        <div class="stock-info">
+                            <div class="company-details">
+                                <h3 id="company-name">Apple Inc.</h3>
+                                <p id="company-meta">NASDAQ • Technology</p>
+                            </div>
+                            <div class="price-section">
+                                <div class="current-price" id="current-price">$175.50</div>
+                                <div class="price-change" id="price-change">+$2.50 (+1.44%)</div>
+                            </div>
+                            <div class="market-stats">
+                                <div class="stat-group">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Volume</span>
+                                        <span class="stat-value" id="volume">45.2M</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Day Range</span>
+                                        <span class="stat-value" id="day-range">$172.80 - $176.20</span>
+                                    </div>
+                                </div>
+                                <div class="stat-group">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Market Cap</span>
+                                        <span class="stat-value" id="market-cap">2.85T</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">P/E Ratio</span>
+                                        <span class="stat-value" id="pe-ratio">28.5</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Price Chart Card -->
+                    <div class="analysis-card chart-card">
+                        <div class="card-header">
+                            <h3>📈 Price Chart & Technical Analysis</h3>
+                            <div class="chart-controls">
+                                <button id="refresh-chart" class="btn btn--outline btn--sm">🔄 Refresh</button>
+                            </div>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="price-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Technical Indicators -->
+                    <div class="indicators-grid">
+                        <div class="analysis-card indicator-card">
+                            <div class="card-header">
+                                <h4>📊 Moving Averages</h4>
+                                <span class="status status--success">🟢 Active</span>
+                            </div>
+                            <div class="indicator-content">
+                                <div class="indicator-row">
+                                    <span class="indicator-label">EMA 13:</span>
+                                    <span class="indicator-value" id="ema-13">$174.25</span>
+                                </div>
+                                <div class="indicator-row">
+                                    <span class="indicator-label">EMA 21:</span>
+                                    <span class="indicator-value" id="ema-21">$173.10</span>
+                                </div>
+                                <div class="indicator-row">
+                                    <span class="indicator-label">Signal:</span>
+                                    <span class="indicator-signal positive" id="ema-signal">🟢 Bullish</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="analysis-card indicator-card">
+                            <div class="card-header">
+                                <h4>⚡ MACD Analysis</h4>
+                                <span class="status status--success">🟢 Active</span>
+                            </div>
+                            <div class="indicator-content">
+                                <div class="indicator-row">
+                                    <span class="indicator-label">MACD Line:</span>
+                                    <span class="indicator-value positive" id="macd-line">1.25</span>
+                                </div>
+                                <div class="indicator-row">
+                                    <span class="indicator-label">Signal Line:</span>
+                                    <span class="indicator-value" id="macd-signal">0.95</span>
+                                </div>
+                                <div class="indicator-row">
+                                    <span class="indicator-label">Histogram:</span>
+                                    <span class="indicator-value positive" id="macd-histogram">0.30</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="analysis-card indicator-card">
+                            <div class="card-header">
+                                <h4>🎯 RSI Momentum</h4>
+                                <span class="status status--success">🟢 Active</span>
+                            </div>
+                            <div class="indicator-content">
+                                <div class="indicator-row">
+                                    <span class="indicator-label">RSI (14):</span>
+                                    <span class="indicator-value" id="rsi-value">58.5</span>
+                                </div>
+                                <div class="indicator-row">
+                                    <span class="indicator-label">Status:</span>
+                                    <span class="indicator-signal neutral" id="rsi-status">🟡 Neutral</span>
+                                </div>
+                                <div class="indicator-row">
+                                    <span class="indicator-label">Strength:</span>
+                                    <span class="indicator-signal" id="signal-strength">Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Prediction Card -->
+                    <div class="analysis-card prediction-card">
+                        <div class="card-header">
+                            <h3>🤖 AI Prediction Engine</h3>
+                            <div class="model-info">
+                                <span class="model-accuracy">Accuracy: <strong id="model-accuracy">72.5%</strong></span>
+                            </div>
+                        </div>
+                        <div class="prediction-content">
+                            <div class="prediction-main">
+                                <div class="prediction-direction" id="prediction-direction">
+                                    <div class="direction-icon">📈</div>
+                                    <div class="direction-text">BULLISH</div>
+                                </div>
+                                <div class="prediction-confidence">
+                                    <span class="confidence-label">Confidence:</span>
+                                    <span class="confidence-value" id="prediction-confidence">72.5%</span>
+                                </div>
+                            </div>
+                            <div class="prediction-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Risk Level:</span>
+                                    <span class="status status--warning" id="risk-level">Medium</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Time Horizon:</span>
+                                    <span class="status status--info" id="time-horizon">1-3 Days</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Model:</span>
+                                    <span class="status status--success">Random Forest</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trading Recommendations -->
+                    <div class="analysis-card recommendations-card">
+                        <div class="card-header">
+                            <h3>💡 Trading Recommendations</h3>
+                            <span class="status status--warning">⚠️ Educational Only</span>
+                        </div>
+                        <div class="recommendations-content">
+                            <div class="recommendation-item">
+                                <div class="rec-header">
+                                    <h4>Entry Signal</h4>
+                                    <span class="rec-strength positive" id="entry-strength">🟢 Strong</span>
+                                </div>
+                                <div class="rec-value" id="entry-signal">BUY Signal Detected</div>
+                                <div class="rec-details" id="entry-details">Technical indicators show bullish momentum with good volume confirmation.</div>
+                            </div>
+                            <div class="recommendation-item">
+                                <div class="rec-header">
+                                    <h4>Price Targets</h4>
+                                    <span class="rec-strength">🎯 Calculated</span>
+                                </div>
+                                <div class="targets-list">
+                                    <div class="target-item">Target 1: <span id="target-1">$178.50</span></div>
+                                    <div class="target-item">Target 2: <span id="target-2">$182.75</span></div>
+                                    <div class="target-item stop-loss">Stop Loss: <span id="stop-loss">$171.20</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Retry Section -->
+                <section id="retry-section" class="retry-section hidden">
+                    <div class="retry-container">
+                        <div class="retry-icon">🔄</div>
+                        <h3>Connection Issue Detected</h3>
+                        <p id="retry-message">We're having trouble connecting to the data provider. This could be due to network issues or API rate limits.</p>
+                        <div class="retry-actions">
+                            <button id="retry-btn" class="btn btn--primary">🔄 Try Again</button>
+                            <button id="use-demo-btn" class="btn btn--secondary">📊 Use Demo Data</button>
+                        </div>
+                        <div class="retry-tips">
+                            <h4>💡 Tips:</h4>
+                            <ul>
+                                <li>Check your internet connection</li>
+                                <li>Try a different stock symbol</li>
+                                <li>Wait a moment and try again</li>
+                                <li>Use demo data to explore features</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="disclaimer">
+                        <h4>⚠️ Important Disclaimer</h4>
+                        <p>This application is for educational and analytical purposes only. Not financial advice. Past performance does not guarantee future results. All investments carry risk of loss. Please consult with financial professionals before making investment decisions.</p>
+                    </div>
+                    <div class="footer-info">
+                        <p>Data provided by Twelve Data API • Built with advanced error handling and user feedback</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Toast Notifications -->
+        <div id="toast-container" class="toast-container"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

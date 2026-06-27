@@ -1,0 +1,40 @@
+{
+  "api_key": "c683deaefb294a559ee1c4bbe4d34705",
+  "rate_limit_delay": 1.2,
+  "featured_stocks": {
+    "US": [
+      "AAPL",
+      "MSFT",
+      "GOOGL",
+      "TSLA",
+      "NVDA",
+      "AMZN",
+      "META",
+      "NFLX"
+    ],
+    "Popular": [
+      "SPY",
+      "QQQ",
+      "ARKK",
+      "GLD",
+      "BTC-USD",
+      "ETH-USD"
+    ]
+  },
+  "ml_settings": {
+    "default_model": "random_forest",
+    "test_size": 0.2,
+    "random_state": 42,
+    "min_data_points": 50
+  },
+  "technical_indicators": {
+    "ema_periods": [
+      13,
+      21
+    ],
+    "rsi_period": 14,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9
+  }
+}
