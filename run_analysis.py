@@ -2,10 +2,14 @@
 # run_analysis.py - Simple usage example
 from twelve_data_backend import StockPredictor
 import json
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def analyze_stocks():
     # Initialize with your API key
-    API_KEY = 'c683deaefb294a559ee1c4bbe4d34705'
+    API_KEY = os.getenv('TWELVE_DATA_API_KEY', 'YOUR_API_KEY_HERE')
     predictor = StockPredictor(API_KEY)
 
     # Analyze popular stocks

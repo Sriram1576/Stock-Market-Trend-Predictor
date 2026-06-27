@@ -13,6 +13,10 @@ import time
 from datetime import datetime, timedelta
 import logging
 from typing import Dict, List, Optional, Tuple
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -411,7 +415,7 @@ class StockPredictor:
 def main():
     """Main function demonstrating usage"""
     # Initialize predictor with API key
-    API_KEY = 'c683deaefb294a559ee1c4bbe4d34705'
+    API_KEY = os.getenv('TWELVE_DATA_API_KEY', 'YOUR_API_KEY_HERE')
     predictor = StockPredictor(API_KEY)
 
     # Test with different stocks

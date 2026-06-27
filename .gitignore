@@ -1,0 +1,6 @@
+.env
+__pycache__/
+*.pyc
+node_modules/
+.DS_Store
+analysis_results.json
