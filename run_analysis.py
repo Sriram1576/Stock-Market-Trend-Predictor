@@ -30,11 +30,14 @@ def analyze_stocks():
         else:
             print(f"❌ Error analyzing {symbol}: {result['error']}")
 
+    # Ensure data directory exists
+    os.makedirs('data', exist_ok=True)
+    
     # Save results
-    with open('analysis_results.json', 'w') as f:
+    with open('data/daily_predictions.json', 'w') as f:
         json.dump(results, f, indent=2)
 
-    print(f"\n📊 Analysis complete! Results saved to analysis_results.json")
+    print(f"\n📊 Analysis complete! Results saved to data/daily_predictions.json")
     return results
 
 if __name__ == "__main__":
