@@ -29,20 +29,16 @@ class StockSearchEngine {
             'SUNPHARMA.BSE': { name: 'Sun Pharmaceutical', exchange: 'BSE', sector: 'Healthcare', emoji: '💊' }
         };
 
-        // Fallback data for when API fails
+        // Fallback data for when API fails or before daily_predictions.json is generated
         this.fallbackData = {
-            'RELIANCE.BSE': {
-                symbol: 'RELIANCE', name: 'Reliance Industries', price: 2950.50, change: 15.20, changePercent: 0.52,
-                volume: 5500000, open: 2935.00, high: 2960.20, low: 2930.80,
-                technical: { ema13: 2940.25, ema21: 2925.10, macd: 5.25, rsi: 58.5 },
-                prediction: { direction: 'UP', confidence: 72.5 }
-            },
-            'TCS.BSE': {
-                symbol: 'TCS', name: 'Tata Consultancy Services', price: 3850.45, change: -12.30, changePercent: -0.32,
-                volume: 2450000, open: 3865.00, high: 3875.50, low: 3840.20,
-                technical: { ema13: 3860.89, ema21: 3870.55, macd: -4.45, rsi: 45.2 },
-                prediction: { direction: 'DOWN', confidence: 68.3 }
-            }
+            'RELIANCE.BSE': { symbol: 'RELIANCE', name: 'Reliance Industries', price: 2950.50, change: 15.20, changePercent: 0.52, volume: 5500000, open: 2935.00, high: 2960.20, low: 2930.80 },
+            'TCS.BSE': { symbol: 'TCS', name: 'Tata Consultancy Services', price: 3850.45, change: -12.30, changePercent: -0.32, volume: 2450000, open: 3865.00, high: 3875.50, low: 3840.20 },
+            'INFY.BSE': { symbol: 'INFY', name: 'Infosys Limited', price: 1420.75, change: 5.50, changePercent: 0.39, volume: 4100000, open: 1415.00, high: 1425.80, low: 1410.20 },
+            'HDFCBANK.BSE': { symbol: 'HDFCBANK', name: 'HDFC Bank Limited', price: 1530.20, change: 8.40, changePercent: 0.55, volume: 8200000, open: 1520.00, high: 1535.50, low: 1515.80 },
+            'ICICIBANK.BSE': { symbol: 'ICICIBANK', name: 'ICICI Bank Limited', price: 1080.60, change: 12.10, changePercent: 1.13, volume: 7500000, open: 1070.00, high: 1085.20, low: 1065.50 },
+            'SBIN.BSE': { symbol: 'SBIN', name: 'State Bank of India', price: 760.30, change: 4.20, changePercent: 0.56, volume: 12000000, open: 755.00, high: 765.40, low: 752.10 },
+            'BHARTIARTL.BSE': { symbol: 'BHARTIARTL', name: 'Bharti Airtel', price: 1190.80, change: -5.60, changePercent: -0.47, volume: 3800000, open: 1195.00, high: 1200.50, low: 1185.20 },
+            'ITC.BSE': { symbol: 'ITC', name: 'ITC Limited', price: 420.50, change: 2.10, changePercent: 0.50, volume: 9500000, open: 418.00, high: 422.80, low: 417.50 }
         };
     }
 
@@ -158,25 +154,47 @@ class StockSearchEngine {
         }
     }
 
-    // Fetch stock quote with retries
+    // Fetch stock quote with robust fallback mechanism
     async fetchStockQuote(symbol, attempt = 1) {
         try {
-            const data = await this.makeApiRequest('quote', { symbol });
-            return this.parseQuoteData(data, symbol);
-        } catch (error) {
-            if (attempt < this.retryAttempts && !['SYMBOL_NOT_FOUND', 'INVALID_SYMBOL'].includes(error.message)) {
-                await this.delay(1000 * attempt);
-                return this.fetchStockQuote(symbol, attempt + 1);
+            // Bypass Twelve Data API entirely and use our generated daily predictions
+            const response = await fetch('data/daily_predictions.json');
+            if (!response.ok) throw new Error('JSON_NOT_FOUND');
+            const data = await response.json();
+            
+            const nsSymbol = symbol.replace('.BSE', '.NS');
+            if (data[nsSymbol] && data[nsSymbol].quote) {
+                this.isConnected = true;
+                const quote = data[nsSymbol].quote;
+                return {
+                    symbol: symbol,
+                    name: this.stockDatabase[symbol]?.name || 'Unknown Company',
+                    exchange: 'BSE',
+                    sector: this.stockDatabase[symbol]?.sector || 'Unknown',
+                    price: parseFloat(quote.price || 0),
+                    open: parseFloat(quote.open || quote.price || 0),
+                    high: parseFloat(quote.high || quote.price || 0),
+                    low: parseFloat(quote.low || quote.price || 0),
+                    change: parseFloat(quote.change || 0),
+                    changePercent: parseFloat(quote.change_percent || 0),
+                    volume: parseInt(quote.volume || 0),
+                    marketCap: 'N/A',
+                    peRatio: 'N/A',
+                    timestamp: new Date().toISOString()
+                };
             }
-            throw error;
+            throw new Error('SYMBOL_NOT_FOUND_IN_JSON');
+        } catch (error) {
+            // Silently fallback to our robust local database if JSON fetch fails (e.g., CORS locally)
+            this.isConnected = false;
+            return this.parseQuoteData(null, symbol);
         }
     }
 
     // Parse quote data with validation
     parseQuoteData(data, symbol) {
-        if (!data || typeof data !== 'object') {
-            throw new Error('INVALID_DATA');
-        }
+        // Handle null gracefully by ensuring data is an object
+        data = data || {};
 
         // Use fallback data if API data is incomplete
         const fallback = this.fallbackData[symbol];
