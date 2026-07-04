@@ -12,36 +12,35 @@ class StockSearchEngine {
         
         // Enhanced stock database
         this.stockDatabase = {
-            'AAPL': { name: 'Apple Inc.', exchange: 'NASDAQ', sector: 'Technology', emoji: '📱' },
-            'MSFT': { name: 'Microsoft Corporation', exchange: 'NASDAQ', sector: 'Technology', emoji: '💻' },
-            'GOOGL': { name: 'Alphabet Inc.', exchange: 'NASDAQ', sector: 'Technology', emoji: '🔍' },
-            'AMZN': { name: 'Amazon.com Inc.', exchange: 'NASDAQ', sector: 'E-commerce', emoji: '📦' },
-            'TSLA': { name: 'Tesla Inc.', exchange: 'NASDAQ', sector: 'Automotive', emoji: '🚗' },
-            'NVDA': { name: 'NVIDIA Corporation', exchange: 'NASDAQ', sector: 'Technology', emoji: '🎮' },
-            'META': { name: 'Meta Platforms Inc.', exchange: 'NASDAQ', sector: 'Social Media', emoji: '👥' },
-            'JPM': { name: 'JPMorgan Chase & Co.', exchange: 'NYSE', sector: 'Finance', emoji: '🏦' },
-            'NFLX': { name: 'Netflix Inc.', exchange: 'NASDAQ', sector: 'Entertainment', emoji: '📺' },
-            'AMD': { name: 'Advanced Micro Devices', exchange: 'NASDAQ', sector: 'Technology', emoji: '⚡' },
-            'INTC': { name: 'Intel Corporation', exchange: 'NASDAQ', sector: 'Technology', emoji: '🔧' },
-            'CRM': { name: 'Salesforce Inc.', exchange: 'NYSE', sector: 'Technology', emoji: '☁️' },
-            'ORCL': { name: 'Oracle Corporation', exchange: 'NYSE', sector: 'Technology', emoji: '🗄️' },
-            'V': { name: 'Visa Inc.', exchange: 'NYSE', sector: 'Finance', emoji: '💳' },
-            'WMT': { name: 'Walmart Inc.', exchange: 'NYSE', sector: 'Retail', emoji: '🛒' },
-            'KO': { name: 'The Coca-Cola Company', exchange: 'NYSE', sector: 'Beverages', emoji: '🥤' }
+            'RELIANCE.BSE': { name: 'Reliance Industries', exchange: 'BSE', sector: 'Conglomerate', emoji: '🏭' },
+            'TCS.BSE': { name: 'Tata Consultancy Services', exchange: 'BSE', sector: 'Technology', emoji: '💻' },
+            'INFY.BSE': { name: 'Infosys Limited', exchange: 'BSE', sector: 'Technology', emoji: '🌐' },
+            'HDFCBANK.BSE': { name: 'HDFC Bank Limited', exchange: 'BSE', sector: 'Finance', emoji: '🏦' },
+            'ICICIBANK.BSE': { name: 'ICICI Bank Limited', exchange: 'BSE', sector: 'Finance', emoji: '🏛️' },
+            'SBIN.BSE': { name: 'State Bank of India', exchange: 'BSE', sector: 'Finance', emoji: '🏦' },
+            'BHARTIARTL.BSE': { name: 'Bharti Airtel Limited', exchange: 'BSE', sector: 'Telecommunications', emoji: '📱' },
+            'ITC.BSE': { name: 'ITC Limited', exchange: 'BSE', sector: 'Consumer Goods', emoji: '🚬' },
+            'WIPRO.BSE': { name: 'Wipro Limited', exchange: 'BSE', sector: 'Technology', emoji: '💻' },
+            'HINDUNILVR.BSE': { name: 'Hindustan Unilever', exchange: 'BSE', sector: 'Consumer Goods', emoji: '🧴' },
+            'ASIANPAINT.BSE': { name: 'Asian Paints', exchange: 'BSE', sector: 'Materials', emoji: '🎨' },
+            'BAJFINANCE.BSE': { name: 'Bajaj Finance', exchange: 'BSE', sector: 'Finance', emoji: '💰' },
+            'MARUTI.BSE': { name: 'Maruti Suzuki', exchange: 'BSE', sector: 'Automotive', emoji: '🚗' },
+            'TATAMOTORS.BSE': { name: 'Tata Motors', exchange: 'BSE', sector: 'Automotive', emoji: '🚙' },
+            'SUNPHARMA.BSE': { name: 'Sun Pharmaceutical', exchange: 'BSE', sector: 'Healthcare', emoji: '💊' }
         };
 
         // Fallback data for when API fails
         this.fallbackData = {
-            'AAPL': {
-                symbol: 'AAPL', name: 'Apple Inc.', price: 175.50, change: 2.50, changePercent: 1.44,
-                volume: 45000000, open: 173.00, high: 176.20, low: 172.80,
-                technical: { ema13: 174.25, ema21: 173.10, macd: 1.25, rsi: 58.5 },
+            'RELIANCE.BSE': {
+                symbol: 'RELIANCE', name: 'Reliance Industries', price: 2950.50, change: 15.20, changePercent: 0.52,
+                volume: 5500000, open: 2935.00, high: 2960.20, low: 2930.80,
+                technical: { ema13: 2940.25, ema21: 2925.10, macd: 5.25, rsi: 58.5 },
                 prediction: { direction: 'UP', confidence: 72.5 }
             },
-            'MSFT': {
-                symbol: 'MSFT', name: 'Microsoft Corporation', price: 378.45, change: -1.23, changePercent: -0.32,
-                volume: 24500000, open: 380.00, high: 381.50, low: 377.20,
-                technical: { ema13: 376.89, ema21: 374.55, macd: -0.45, rsi: 45.2 },
+            'TCS.BSE': {
+                symbol: 'TCS', name: 'Tata Consultancy Services', price: 3850.45, change: -12.30, changePercent: -0.32,
+                volume: 2450000, open: 3865.00, high: 3875.50, low: 3840.20,
+                technical: { ema13: 3860.89, ema21: 3870.55, macd: -4.45, rsi: 45.2 },
                 prediction: { direction: 'DOWN', confidence: 68.3 }
             }
         };
@@ -55,8 +54,8 @@ class StockSearchEngine {
         // Check format: letters, numbers, dots, hyphens only
         if (!/^[A-Z0-9.-]+$/.test(cleaned)) return false;
         
-        // Check length
-        if (cleaned.length < 1 || cleaned.length > 10) return false;
+        // Check length (allowing for .BSE suffix, max 15 chars)
+        if (cleaned.length < 1 || cleaned.length > 15) return false;
         
         return true;
     }
@@ -790,7 +789,7 @@ class StockMarketPredictor {
         this.technicalAnalyzer = new TechnicalAnalyzer();
         this.mlPredictor = new MLPredictor();
         this.uiManager = new UIManager();
-        this.currentSymbol = 'AAPL';
+        this.currentSymbol = 'RELIANCE.BSE';
         this.isLoading = false;
         
         this.init();
