@@ -12,8 +12,8 @@ def analyze_stocks():
     API_KEY = os.getenv('TWELVE_DATA_API_KEY', 'YOUR_API_KEY_HERE')
     predictor = StockPredictor(API_KEY)
 
-    # Analyze popular stocks
-    stocks_to_analyze = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA']
+    # Analyze popular Indian stocks
+    stocks_to_analyze = ['RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'HDFCBANK.NS', 'ICICIBANK.NS']
 
     results = {}
     for symbol in stocks_to_analyze:
