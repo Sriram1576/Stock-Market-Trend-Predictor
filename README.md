@@ -46,4 +46,4 @@ pip install -r requirements_twelve_data.txt
    Simply open `index.html` in your web browser to view the stock analysis dashboard.
 
 ## ⚠️ Disclaimer
-This tool is for educational and informational purposes only. It is not intended as financial advice. Always do your own research and consult with a qualified financial advisor before making investment decisions.
+This tool is for educational and informational purposes only. It is not intended as financial advice. Always do your own research and consult with a qualified financial advisor before making investment decisions. 
