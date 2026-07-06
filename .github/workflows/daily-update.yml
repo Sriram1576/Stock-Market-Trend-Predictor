@@ -26,10 +26,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements_twelve_data.txt
 
-    - name: Run Market Analysis
+    - name: Run Market Analysis (4-Pillar Engine)
       env:
         TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
-      run: python run_analysis.py
+      run: python quant_engine/generate_json.py
 
     - name: Force Daily Update Timestamp
       run: |
