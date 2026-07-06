@@ -94,13 +94,31 @@ async function handleSearch() {
 async function fetchDynamicYahooData(symbol) {
     const sym = symbol.includes('.') || symbol.startsWith('^') ? symbol : symbol + '.NS';
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=15m&range=5d`;
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
     
-    const res = await fetch(proxyUrl);
-    if (!res.ok) throw new Error(`Could not fetch data for ${symbol}. Please check the symbol and try again.`);
+    // Yahoo heavily blocks allorigins. Use a chain of reliable proxies for maximum uptime
+    const proxies = [
+        `https://corsproxy.io/?${encodeURIComponent(url)}`,
+        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+    ];
+
+    let res = null;
+    let json = null;
     
-    const json = await res.json();
-    if (!json.chart || !json.chart.result) throw new Error(`Stock ${symbol} not found on the exchange.`);
+    for (const proxyUrl of proxies) {
+        try {
+            res = await fetch(proxyUrl);
+            if (res.ok) {
+                json = await res.json();
+                if (json.chart && json.chart.result) break; // success
+            }
+        } catch (e) {
+            console.log("Proxy failed:", proxyUrl);
+        }
+    }
+
+    if (!json || !json.chart || !json.chart.result) {
+        throw new Error(`Could not fetch live data for ${symbol}. The exchange API may be blocking proxies. Please try again later.`);
+    }
     
     const result = json.chart.result[0];
     const quote = result.indicators.quote[0];
