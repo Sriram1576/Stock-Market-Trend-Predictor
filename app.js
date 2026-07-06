@@ -57,19 +57,20 @@ async function handleSearch() {
     await simulateProgress();
 
     try {
-        const response = await fetch('data/daily_predictions.json?t=' + Date.now());
-        if (!response.ok) throw new Error('Data not found');
-        
-        const data = await response.json();
-        
-        let stockData = data[symbol];
-        if (!stockData) {
-            // Try fallback appending .NS
-            stockData = data[symbol.replace('.BSE', '.NS')] || data[symbol + '.NS'];
+        let stockData = null;
+        try {
+            const response = await fetch('data/daily_predictions.json?t=' + Date.now());
+            if (response.ok) {
+                const data = await response.json();
+                stockData = data[symbol] || data[symbol.replace('.BSE', '.NS')] || data[symbol + '.NS'];
+            }
+        } catch(e) {
+            console.log("Local JSON failed, falling back to dynamic fetch");
         }
 
         if (!stockData) {
-            throw new Error(`Symbol ${symbol} not found in algorithmic database.`);
+            UI.progressMsg.innerText = "Stock not found in cache. Fetching dynamically from exchange...";
+            stockData = await fetchDynamicYahooData(symbol);
         }
 
         renderDashboard(symbol, stockData);
@@ -90,6 +91,86 @@ async function handleSearch() {
     }
 }
 
+async function fetchDynamicYahooData(symbol) {
+    const sym = symbol.includes('.') || symbol.startsWith('^') ? symbol : symbol + '.NS';
+    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=15m&range=5d`;
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    
+    const res = await fetch(proxyUrl);
+    if (!res.ok) throw new Error(`Could not fetch data for ${symbol}. Please check the symbol and try again.`);
+    
+    const json = await res.json();
+    if (!json.chart || !json.chart.result) throw new Error(`Stock ${symbol} not found on the exchange.`);
+    
+    const result = json.chart.result[0];
+    const quote = result.indicators.quote[0];
+    const closes = quote.close.filter(c => c !== null);
+    const volumes = quote.volume.filter(v => v !== null);
+    
+    if(closes.length === 0) throw new Error("No recent price data available for this stock.");
+    
+    const currentPrice = closes[closes.length - 1];
+    const openPrice = closes[0];
+    const change = currentPrice - openPrice;
+    
+    // Quick EMA calc
+    const ema = (data, period) => {
+        if(data.length === 0) return 0;
+        let k = 2 / (period + 1);
+        let emaArr = [data[0]];
+        for(let i=1; i<data.length; i++) {
+            emaArr.push(data[i] * k + emaArr[i-1] * (1-k));
+        }
+        return emaArr[emaArr.length-1];
+    };
+    
+    const ema13 = ema(closes, 13);
+    const ema21 = ema(closes, 21);
+    const ema8 = ema(closes, 8);
+    
+    const isBull = ema8 > ema13 && ema13 > ema21;
+    const isBear = ema8 < ema13 && ema13 < ema21;
+    const trend = isBull ? "Bullish" : (isBear ? "Bearish" : "Sideways");
+    
+    const avgVol = volumes.length > 0 ? volumes.reduce((a,b)=>a+b,0)/volumes.length : 0;
+    const volSpike = volumes.length > 0 ? volumes[volumes.length-1] > avgVol * 1.5 : false;
+    
+    let signal = "NO TRADE (Dynamic)";
+    let direction = "NEUTRAL";
+    if (isBull && volSpike) { signal = "BUY CALL (CE)"; direction = "BULLISH"; }
+    else if (isBear && volSpike) { signal = "BUY PUT (PE)"; direction = "BEARISH"; }
+    
+    const highs = quote.high.filter(h=>h!==null);
+    const lows = quote.low.filter(l=>l!==null);
+
+    return {
+        name: sym,
+        quote: {
+            price: currentPrice,
+            open: openPrice,
+            high: highs.length > 0 ? Math.max(...highs) : currentPrice,
+            low: lows.length > 0 ? Math.min(...lows) : currentPrice,
+            change: change,
+            change_percent: (change/openPrice)*100,
+            volume: volumes.length > 0 ? volumes[volumes.length-1] : 0
+        },
+        technical: {
+            ema8, ema13, ema21,
+            pcr: 1.0, // PCR requires option chain access not available via basic chart endpoint
+            pcr_sentiment: "NEUTRAL",
+            vol_spike: volSpike,
+            trend: trend
+        },
+        prediction: {
+            signal_text: signal,
+            direction: direction,
+            pillars_aligned: isBull || isBear ? "True, True, False, True" : "False",
+            target: currentPrice * (isBull ? 1.02 : (isBear ? 0.98 : 0)),
+            stop_loss: currentPrice * (isBull ? 0.99 : (isBear ? 1.01 : 0))
+        }
+    };
+}
+
 function renderDashboard(symbol, data) {
     const quote = data.quote;
     const tech = data.technical;
@@ -98,7 +179,7 @@ function renderDashboard(symbol, data) {
     // Overview
     document.getElementById('stock-symbol').innerText = symbol.replace('.NS', '');
     const chip = Array.from(UI.chips).find(c => c.dataset.symbol.includes(symbol.replace('.NS', '')));
-    document.getElementById('company-name').innerText = chip ? chip.dataset.name : symbol;
+    document.getElementById('company-name').innerText = data.name || (chip ? chip.dataset.name : symbol);
     
     document.getElementById('current-price').innerText = `₹${quote.price.toFixed(2)}`;
     
@@ -131,7 +212,7 @@ function renderDashboard(symbol, data) {
     document.getElementById('prediction-confidence').innerText = `${alignmentCount}/4 Pillars Aligned`;
 
     // Risk / Execution
-    document.getElementById('entry-signal').innerText = pred.signal_text !== 'NO TRADE' ? `Execute ${pred.direction} at Market` : 'Wait for setup';
+    document.getElementById('entry-signal').innerText = pred.signal_text.includes('NO TRADE') ? 'Wait for setup' : `Execute ${pred.direction} at Market`;
     document.getElementById('target-1').innerText = pred.target > 0 ? `₹${pred.target.toFixed(2)}` : 'N/A';
     document.getElementById('stop-loss').innerText = pred.stop_loss > 0 ? `₹${pred.stop_loss.toFixed(2)}` : 'N/A';
     

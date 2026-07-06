@@ -123,9 +123,26 @@
             </div>
         </header>
 
+        <!-- Indices Ticker -->
+        <div class="mb-6 flex flex-wrap gap-4 items-center justify-center md:justify-start">
+            <h3 class="text-xs uppercase tracking-wider text-slate-500 font-semibold mr-2">Market Indices:</h3>
+            <button class="stock-chip px-4 py-2 rounded-lg flex items-center space-x-2 text-sm text-slate-300 cursor-pointer border border-slate-700 bg-slate-800/50" data-symbol="^NSEI" data-name="NIFTY 50 Index">
+                <span class="text-blue-400">📊</span><span class="font-bold">NIFTY 50</span>
+            </button>
+            <button class="stock-chip px-4 py-2 rounded-lg flex items-center space-x-2 text-sm text-slate-300 cursor-pointer border border-slate-700 bg-slate-800/50" data-symbol="^NSEBANK" data-name="NIFTY BANK Index">
+                <span class="text-emerald-400">🏦</span><span class="font-bold">BANK NIFTY</span>
+            </button>
+            <button class="stock-chip px-4 py-2 rounded-lg flex items-center space-x-2 text-sm text-slate-300 cursor-pointer border border-slate-700 bg-slate-800/50" data-symbol="^CNXIT" data-name="NIFTY IT Index">
+                <span class="text-purple-400">💻</span><span class="font-bold">NIFTY IT</span>
+            </button>
+            <button class="stock-chip px-4 py-2 rounded-lg flex items-center space-x-2 text-sm text-slate-300 cursor-pointer border border-slate-700 bg-slate-800/50" data-symbol="^BSESN" data-name="BSE SENSEX">
+                <span class="text-yellow-400">📈</span><span class="font-bold">SENSEX</span>
+            </button>
+        </div>
+
         <!-- Search & Selection -->
         <section class="glass-panel p-6 mb-8 relative z-10">
-            <h2 class="text-xl font-semibold mb-4 text-slate-200">🔍 Search Indian Markets (NIFTY 50)</h2>
+            <h2 class="text-xl font-semibold mb-4 text-slate-200">🔍 Search Indian Markets (NIFTY 50 & BSE)</h2>
             <div class="flex flex-col md:flex-row gap-4 mb-6">
                 <div class="relative flex-grow">
                     <input 
@@ -156,20 +173,8 @@
             </div>
 
             <div class="mt-8">
-                <h3 class="text-sm uppercase tracking-wider text-slate-500 mb-3 font-semibold">🔥 High-Volume Movers & Indices</h3>
+                <h3 class="text-sm uppercase tracking-wider text-slate-500 mb-3 font-semibold">🔥 High-Volume Movers</h3>
                 <div class="flex flex-wrap gap-3">
-                    <button class="stock-chip px-4 py-2 rounded-full flex items-center space-x-2 text-sm text-slate-300 cursor-pointer" data-symbol="^NSEI" data-name="NIFTY 50 Index">
-                        <span>📊</span><span class="font-bold">NIFTY 50</span>
-                    </button>
-                    <button class="stock-chip px-4 py-2 rounded-full flex items-center space-x-2 text-sm text-slate-300 cursor-pointer" data-symbol="^NSEBANK" data-name="NIFTY BANK Index">
-                        <span>🏦</span><span class="font-bold">BANK NIFTY</span>
-                    </button>
-                    <button class="stock-chip px-4 py-2 rounded-full flex items-center space-x-2 text-sm text-slate-300 cursor-pointer" data-symbol="^CNXIT" data-name="NIFTY IT Index">
-                        <span>💻</span><span class="font-bold">NIFTY IT</span>
-                    </button>
-                    <button class="stock-chip px-4 py-2 rounded-full flex items-center space-x-2 text-sm text-slate-300 cursor-pointer" data-symbol="^BSESN" data-name="BSE SENSEX">
-                        <span>📈</span><span class="font-bold">SENSEX</span>
-                    </button>
                     <button class="stock-chip active px-4 py-2 rounded-full flex items-center space-x-2 text-sm text-slate-300 cursor-pointer" data-symbol="RELIANCE.NS" data-name="Reliance Industries">
                         <span>🏭</span><span class="font-bold">RELIANCE</span>
                     </button>
