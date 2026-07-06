@@ -12,15 +12,40 @@ from module2_features import FeatureEngineeringEngine
 from module3_predictive_risk import PredictiveRiskEngine
 
 def generate_predictions():
+    # NIFTY 50 and Major Indices
     stocks = {
+        # Indices
+        '^NSEI': 'NIFTY 50',
+        '^NSEBANK': 'NIFTY BANK',
+        '^CNXIT': 'NIFTY IT',
+        '^BSESN': 'BSE SENSEX',
+        
+        # NIFTY 50 Stocks
         'RELIANCE.NS': 'Reliance Industries',
         'TCS.NS': 'Tata Consultancy Services',
-        'INFY.NS': 'Infosys Limited',
-        'HDFCBANK.NS': 'HDFC Bank Limited',
-        'ICICIBANK.NS': 'ICICI Bank Limited',
+        'HDFCBANK.NS': 'HDFC Bank',
+        'ICICIBANK.NS': 'ICICI Bank',
+        'INFY.NS': 'Infosys',
+        'ITC.NS': 'ITC Limited',
         'SBIN.NS': 'State Bank of India',
         'BHARTIARTL.NS': 'Bharti Airtel',
-        'ITC.NS': 'ITC Limited'
+        'LARSEN.NS': 'Larsen & Toubro',
+        'BAJFINANCE.NS': 'Bajaj Finance',
+        'KOTAKBANK.NS': 'Kotak Mahindra Bank',
+        'AXISBANK.NS': 'Axis Bank',
+        'ASIANPAINT.NS': 'Asian Paints',
+        'HINDUNILVR.NS': 'Hindustan Unilever',
+        'MARUTI.NS': 'Maruti Suzuki',
+        'SUNPHARMA.NS': 'Sun Pharma',
+        'TITAN.NS': 'Titan Company',
+        'TATASTEEL.NS': 'Tata Steel',
+        'NTPC.NS': 'NTPC',
+        'HCLTECH.NS': 'HCL Technologies',
+        'TATAMOTORS.NS': 'Tata Motors',
+        'WIPRO.NS': 'Wipro',
+        'ONGC.NS': 'ONGC',
+        'TECHM.NS': 'Tech Mahindra',
+        'ADANIENT.NS': 'Adani Enterprises'
     }
 
     results = {}
@@ -81,6 +106,7 @@ def generate_predictions():
             direction = "BULLISH" if "BUY CALL" in signal or "CE" in signal else ("BEARISH" if "BUY PUT" in signal or "PE" in signal else "NEUTRAL")
 
             results[symbol] = {
+                "name": stocks[symbol],
                 "quote": {
                     "price": close_price,
                     "open": open_price,
@@ -120,7 +146,7 @@ def generate_predictions():
     with open(output_file, 'w') as f:
         json.dump(results, f, indent=2)
 
-    print(f"✅ Generated predictions for {len(results)} stocks and saved to {output_file}")
+    print(f"Generated predictions for {len(results)} stocks and saved to {output_file}")
 
 if __name__ == "__main__":
     generate_predictions()
