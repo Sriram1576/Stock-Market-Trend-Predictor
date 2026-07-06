@@ -31,9 +31,17 @@ jobs:
         TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
       run: python run_analysis.py
 
+    - name: Force Daily Update Timestamp
+      run: |
+        mkdir -p data
+        date -u +"%Y-%m-%dT%H:%M:%SZ" > data/last_update.txt
+
     - name: Commit and Push Changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         commit_message: "🤖 chore: update daily market predictions"
-        file_pattern: "data/daily_predictions.json"
+        commit_user_name: "Subham Sadangi"
+        commit_user_email: "subhamsadangi1576@gmail.com"
+        commit_author: "Subham Sadangi <subhamsadangi1576@gmail.com>"
+        file_pattern: "data/*"
         branch: main
