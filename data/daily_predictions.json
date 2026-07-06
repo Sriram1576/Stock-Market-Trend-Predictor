@@ -1,1 +1,758 @@
-{}
+{
+  "^NSEI": {
+    "name": "NIFTY 50",
+    "quote": {
+      "price": 24442.69921875,
+      "open": 24441.25,
+      "high": 24453.44921875,
+      "low": 24437.44921875,
+      "change": 1.45,
+      "change_percent": 0.01,
+      "volume": 0
+    },
+    "technical": {
+      "ema8": 24424.162221508508,
+      "ema13": 24406.741987687546,
+      "ema21": 24382.461951349545,
+      "pcr": 1.3992275252916477,
+      "pcr_sentiment": "BULLISH",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "^NSEBANK": {
+    "name": "NIFTY BANK",
+    "quote": {
+      "price": 58429.8515625,
+      "open": 58430.19921875,
+      "high": 58476.55078125,
+      "low": 58409.0,
+      "change": -0.35,
+      "change_percent": -0.0,
+      "volume": 0
+    },
+    "technical": {
+      "ema8": 58351.464430766355,
+      "ema13": 58296.77553985953,
+      "ema21": 58230.44144361657,
+      "pcr": 1.477534948324204,
+      "pcr_sentiment": "BULLISH",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "^CNXIT": {
+    "name": "NIFTY IT",
+    "quote": {
+      "price": 27202.30078125,
+      "open": 27189.349609375,
+      "high": 27218.94921875,
+      "low": 27184.80078125,
+      "change": 12.95,
+      "change_percent": 0.05,
+      "volume": 0
+    },
+    "technical": {
+      "ema8": 27213.531612980885,
+      "ema13": 27245.155139642895,
+      "ema21": 27280.441462424467,
+      "pcr": 1.2624159595242084,
+      "pcr_sentiment": "BULLISH",
+      "vol_spike": false,
+      "trend": "Bearish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "^BSESN": {
+    "name": "BSE SENSEX",
+    "quote": {
+      "price": 78318.0390625,
+      "open": 78317.03125,
+      "high": 78349.703125,
+      "low": 78312.1484375,
+      "change": 1.01,
+      "change_percent": 0.0,
+      "volume": 0
+    },
+    "technical": {
+      "ema8": 78251.93889678543,
+      "ema13": 78193.89709780636,
+      "ema21": 78116.60709966884,
+      "pcr": 0.7907627096304332,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "RELIANCE.NS": {
+    "name": "Reliance Industries",
+    "quote": {
+      "price": 1323.9000244140625,
+      "open": 1322.4000244140625,
+      "high": 1325.300048828125,
+      "low": 1322.199951171875,
+      "change": 1.5,
+      "change_percent": 0.11,
+      "volume": 369055
+    },
+    "technical": {
+      "ema8": 1320.3310065900005,
+      "ema13": 1317.4067200723732,
+      "ema21": 1314.1922542128652,
+      "pcr": 0.707537929880991,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "TCS.NS": {
+    "name": "Tata Consultancy Services",
+    "quote": {
+      "price": 2061.39990234375,
+      "open": 2058.89990234375,
+      "high": 2062.39990234375,
+      "low": 2058.5,
+      "change": 2.5,
+      "change_percent": 0.12,
+      "volume": 27865
+    },
+    "technical": {
+      "ema8": 2062.2165969584976,
+      "ema13": 2065.856598909957,
+      "ema21": 2070.772183327293,
+      "pcr": 0.6972573064208218,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bearish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "HDFCBANK.NS": {
+    "name": "HDFC Bank",
+    "quote": {
+      "price": 827.7999877929688,
+      "open": 827.2999877929688,
+      "high": 828.9000244140625,
+      "low": 827.0499877929688,
+      "change": 0.5,
+      "change_percent": 0.06,
+      "volume": 2623296
+    },
+    "technical": {
+      "ema8": 825.3053602145981,
+      "ema13": 822.5665008085615,
+      "ema21": 818.6783707501085,
+      "pcr": 0.599481224817137,
+      "pcr_sentiment": "BEARISH",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': True, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "ICICIBANK.NS": {
+    "name": "ICICI Bank",
+    "quote": {
+      "price": 1426.300048828125,
+      "open": 1423.4000244140625,
+      "high": 1426.300048828125,
+      "low": 1422.5999755859375,
+      "change": 2.9,
+      "change_percent": 0.2,
+      "volume": 190687
+    },
+    "technical": {
+      "ema8": 1424.0989383619108,
+      "ema13": 1423.1118411086595,
+      "ema21": 1420.9982235000734,
+      "pcr": 0.6469029002987643,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "INFY.NS": {
+    "name": "Infosys",
+    "quote": {
+      "price": 1035.0999755859375,
+      "open": 1034.5999755859375,
+      "high": 1035.699951171875,
+      "low": 1034.300048828125,
+      "change": 0.5,
+      "change_percent": 0.05,
+      "volume": 62976
+    },
+    "technical": {
+      "ema8": 1036.2709650378931,
+      "ema13": 1037.7853372623238,
+      "ema21": 1039.6582132149515,
+      "pcr": 1.1518736399945142,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bearish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "ITC.NS": {
+    "name": "ITC Limited",
+    "quote": {
+      "price": 289.6000061035156,
+      "open": 289.6000061035156,
+      "high": 289.79998779296875,
+      "low": 289.5,
+      "change": 0.0,
+      "change_percent": 0.0,
+      "volume": 517809
+    },
+    "technical": {
+      "ema8": 289.09361278931044,
+      "ema13": 289.0468013900035,
+      "ema21": 289.16504538013174,
+      "pcr": 1.357831851610837,
+      "pcr_sentiment": "BULLISH",
+      "vol_spike": false,
+      "trend": "Sideways"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "SBIN.NS": {
+    "name": "State Bank of India",
+    "quote": {
+      "price": 1046.0,
+      "open": 1044.9000244140625,
+      "high": 1046.800048828125,
+      "low": 1044.699951171875,
+      "change": 1.1,
+      "change_percent": 0.11,
+      "volume": 660741
+    },
+    "technical": {
+      "ema8": 1043.5529528055724,
+      "ema13": 1042.857940673216,
+      "ema21": 1042.5481769004114,
+      "pcr": 0.6615849694977127,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": true,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': True, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "BHARTIARTL.NS": {
+    "name": "Bharti Airtel",
+    "quote": {
+      "price": 1927.699951171875,
+      "open": 1927.5,
+      "high": 1928.5999755859375,
+      "low": 1926.9000244140625,
+      "change": 0.2,
+      "change_percent": 0.01,
+      "volume": 35878
+    },
+    "technical": {
+      "ema8": 1924.8923654436014,
+      "ema13": 1922.6742852314803,
+      "ema21": 1918.5687577450112,
+      "pcr": 0.7833991567759845,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "BAJFINANCE.NS": {
+    "name": "Bajaj Finance",
+    "quote": {
+      "price": 1029.0999755859375,
+      "open": 1031.9000244140625,
+      "high": 1034.9000244140625,
+      "low": 1028.699951171875,
+      "change": -2.8,
+      "change_percent": -0.27,
+      "volume": 190364
+    },
+    "technical": {
+      "ema8": 1033.3287266778048,
+      "ema13": 1033.779096323359,
+      "ema21": 1033.582336727039,
+      "pcr": 0.5478273528772966,
+      "pcr_sentiment": "BEARISH",
+      "vol_spike": false,
+      "trend": "Sideways"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': True, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "KOTAKBANK.NS": {
+    "name": "Kotak Mahindra Bank",
+    "quote": {
+      "price": 385.29998779296875,
+      "open": 385.1499938964844,
+      "high": 385.8500061035156,
+      "low": 385.04998779296875,
+      "change": 0.15,
+      "change_percent": 0.04,
+      "volume": 437606
+    },
+    "technical": {
+      "ema8": 385.0800399500078,
+      "ema13": 385.9141350532789,
+      "ema21": 387.6671984089265,
+      "pcr": 1.339383199015427,
+      "pcr_sentiment": "BULLISH",
+      "vol_spike": false,
+      "trend": "Bearish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "AXISBANK.NS": {
+    "name": "Axis Bank",
+    "quote": {
+      "price": 1349.300048828125,
+      "open": 1349.5,
+      "high": 1351.800048828125,
+      "low": 1348.4000244140625,
+      "change": -0.2,
+      "change_percent": -0.01,
+      "volume": 68698
+    },
+    "technical": {
+      "ema8": 1350.1899222016818,
+      "ema13": 1350.9303061890378,
+      "ema21": 1351.8672644578435,
+      "pcr": 1.3708127746154934,
+      "pcr_sentiment": "BULLISH",
+      "vol_spike": false,
+      "trend": "Bearish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "ASIANPAINT.NS": {
+    "name": "Asian Paints",
+    "quote": {
+      "price": 2748.199951171875,
+      "open": 2749.60009765625,
+      "high": 2751.0,
+      "low": 2747.199951171875,
+      "change": -1.4,
+      "change_percent": -0.05,
+      "volume": 12944
+    },
+    "technical": {
+      "ema8": 2743.423510543426,
+      "ema13": 2741.272508826446,
+      "ema21": 2740.203638841605,
+      "pcr": 1.075930918369791,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "HINDUNILVR.NS": {
+    "name": "Hindustan Unilever",
+    "quote": {
+      "price": 2199.0,
+      "open": 2201.39990234375,
+      "high": 2203.0,
+      "low": 2197.10009765625,
+      "change": -2.4,
+      "change_percent": -0.11,
+      "volume": 21743
+    },
+    "technical": {
+      "ema8": 2203.082705704528,
+      "ema13": 2203.7490677157944,
+      "ema21": 2204.0789779382458,
+      "pcr": 1.1811250748539415,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bearish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "MARUTI.NS": {
+    "name": "Maruti Suzuki",
+    "quote": {
+      "price": 14414.0,
+      "open": 14415.0,
+      "high": 14425.0,
+      "low": 14410.0,
+      "change": -1.0,
+      "change_percent": -0.01,
+      "volume": 2975
+    },
+    "technical": {
+      "ema8": 14425.664451089264,
+      "ema13": 14427.71728249463,
+      "ema21": 14426.449632503272,
+      "pcr": 0.5975038258882626,
+      "pcr_sentiment": "BEARISH",
+      "vol_spike": false,
+      "trend": "Sideways"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': True, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "SUNPHARMA.NS": {
+    "name": "Sun Pharma",
+    "quote": {
+      "price": 1906.5999755859375,
+      "open": 1906.9000244140625,
+      "high": 1907.0,
+      "low": 1905.5999755859375,
+      "change": -0.3,
+      "change_percent": -0.02,
+      "volume": 11981
+    },
+    "technical": {
+      "ema8": 1906.7597546111747,
+      "ema13": 1906.7999857235986,
+      "ema21": 1906.3058132053327,
+      "pcr": 0.9283532748865911,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Sideways"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "TITAN.NS": {
+    "name": "Titan Company",
+    "quote": {
+      "price": 4484.60009765625,
+      "open": 4477.89990234375,
+      "high": 4488.2001953125,
+      "low": 4475.0,
+      "change": 6.7,
+      "change_percent": 0.15,
+      "volume": 14846
+    },
+    "technical": {
+      "ema8": 4473.619674003296,
+      "ema13": 4473.331500457793,
+      "ema21": 4473.177995665813,
+      "pcr": 0.8781648186975268,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "TATASTEEL.NS": {
+    "name": "Tata Steel",
+    "quote": {
+      "price": 190.75,
+      "open": 190.83999633789062,
+      "high": 190.99000549316406,
+      "low": 190.60000610351562,
+      "change": -0.09,
+      "change_percent": -0.05,
+      "volume": 265986
+    },
+    "technical": {
+      "ema8": 190.91919563010345,
+      "ema13": 190.88414074224914,
+      "ema21": 190.76078052190292,
+      "pcr": 0.808938564226903,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "NTPC.NS": {
+    "name": "NTPC",
+    "quote": {
+      "price": 357.20001220703125,
+      "open": 356.8500061035156,
+      "high": 357.6000061035156,
+      "low": 356.70001220703125,
+      "change": 0.35,
+      "change_percent": 0.1,
+      "volume": 791753
+    },
+    "technical": {
+      "ema8": 357.12940947688776,
+      "ema13": 357.08658855197865,
+      "ema21": 357.14095896514135,
+      "pcr": 0.5938907301291877,
+      "pcr_sentiment": "BEARISH",
+      "vol_spike": true,
+      "trend": "Sideways"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.False_, 'p2_vol_spike': True, 'bullish_p3': False, 'bearish_p3': True, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "HCLTECH.NS": {
+    "name": "HCL Technologies",
+    "quote": {
+      "price": 1136.5999755859375,
+      "open": 1135.5,
+      "high": 1136.699951171875,
+      "low": 1135.0,
+      "change": 1.1,
+      "change_percent": 0.1,
+      "volume": 36453
+    },
+    "technical": {
+      "ema8": 1135.9247460537151,
+      "ema13": 1136.4723738961245,
+      "ema21": 1136.00489803919,
+      "pcr": 0.9868663232618279,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Sideways"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "WIPRO.NS": {
+    "name": "Wipro",
+    "quote": {
+      "price": 173.9499969482422,
+      "open": 174.0500030517578,
+      "high": 174.25,
+      "low": 173.85000610351562,
+      "change": -0.1,
+      "change_percent": -0.06,
+      "volume": 135737
+    },
+    "technical": {
+      "ema8": 174.12630319185885,
+      "ema13": 174.31252327248964,
+      "ema21": 174.56764926907567,
+      "pcr": 1.2233130712074118,
+      "pcr_sentiment": "BULLISH",
+      "vol_spike": false,
+      "trend": "Bearish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "ONGC.NS": {
+    "name": "ONGC",
+    "quote": {
+      "price": 242.1300048828125,
+      "open": 242.4199981689453,
+      "high": 242.8699951171875,
+      "low": 242.0399932861328,
+      "change": -0.29,
+      "change_percent": -0.12,
+      "volume": 209852
+    },
+    "technical": {
+      "ema8": 241.4108401707464,
+      "ema13": 240.85571763249382,
+      "ema21": 240.18451560093084,
+      "pcr": 0.5397963998863761,
+      "pcr_sentiment": "BEARISH",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': True, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "TECHM.NS": {
+    "name": "Tech Mahindra",
+    "quote": {
+      "price": 1399.199951171875,
+      "open": 1398.4000244140625,
+      "high": 1401.199951171875,
+      "low": 1397.0,
+      "change": 0.8,
+      "change_percent": 0.06,
+      "volume": 26698
+    },
+    "technical": {
+      "ema8": 1398.6557066761186,
+      "ema13": 1400.6675526221127,
+      "ema21": 1404.176748074128,
+      "pcr": 0.5809735352985319,
+      "pcr_sentiment": "BEARISH",
+      "vol_spike": false,
+      "trend": "Bearish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': True, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  },
+  "ADANIENT.NS": {
+    "name": "Adani Enterprises",
+    "quote": {
+      "price": 3213.5,
+      "open": 3209.89990234375,
+      "high": 3213.5,
+      "low": 3206.39990234375,
+      "change": 3.6,
+      "change_percent": 0.11,
+      "volume": 23407
+    },
+    "technical": {
+      "ema8": 3212.9082784952707,
+      "ema13": 3211.896910680495,
+      "ema21": 3207.3957300147154,
+      "pcr": 0.8165087759632752,
+      "pcr_sentiment": "NEUTRAL",
+      "vol_spike": false,
+      "trend": "Bullish"
+    },
+    "prediction": {
+      "signal_text": "NO TRADE (Choppy/Sideways Market)",
+      "direction": "NEUTRAL",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "target": 0.0,
+      "stop_loss": 0.0
+    }
+  }
+}
