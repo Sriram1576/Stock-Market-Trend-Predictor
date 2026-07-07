@@ -23,7 +23,20 @@ let chartInstance = null;
 async function initApp() {
     UI.searchBtn.addEventListener('click', handleSearch);
     UI.searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleSearch();
+        if (e.key === 'Enter') {
+            document.getElementById('search-suggestions').classList.add('hidden');
+            handleSearch();
+        }
+    });
+
+    // UX Upgrade: Real-time Autocomplete
+    UI.searchInput.addEventListener('input', debounce(handleAutocomplete, 300));
+    
+    // Hide suggestions on click outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#search-suggestions') && !e.target.closest('#stock-search')) {
+            document.getElementById('search-suggestions').classList.add('hidden');
+        }
     });
     
     UI.chips.forEach(chip => {
@@ -48,6 +61,8 @@ async function initApp() {
 async function handleSearch() {
     const symbol = UI.searchInput.value.trim().toUpperCase();
     if (!symbol) return;
+    
+    document.getElementById('search-suggestions').classList.add('hidden');
     
     // UI state updates
     UI.retrySection.classList.add('hidden');
@@ -300,4 +315,62 @@ function formatNumber(num) {
     if (num >= 1e5) return (num / 1e5).toFixed(2) + 'L';
     if (num >= 1e3) return (num / 1e3).toFixed(1) + 'k';
     return num.toString();
+}
+
+// Autocomplete Logic
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => { clearTimeout(timeout); func(...args); };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+async function handleAutocomplete(e) {
+    const query = e.target.value.trim();
+    const suggestionsDiv = document.getElementById('search-suggestions');
+    const listDiv = document.getElementById('suggestions-list');
+    
+    if (query.length < 2) {
+        suggestionsDiv.classList.add('hidden');
+        return;
+    }
+
+    try {
+        const url = `https://query2.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(query)}&quotesCount=5&newsCount=0`;
+        const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`;
+        const res = await fetch(proxyUrl);
+        const data = await res.json();
+
+        listDiv.innerHTML = '';
+        if (data.quotes && data.quotes.length > 0) {
+            // Filter primarily for Indian stocks (.NS or .BO)
+            let matches = data.quotes.filter(q => q.symbol.endsWith('.NS') || q.symbol.endsWith('.BO') || q.symbol.startsWith('^'));
+            if(matches.length === 0) matches = data.quotes; // Fallback to all matches
+
+            matches.slice(0, 5).forEach(quote => {
+                const item = document.createElement('div');
+                item.className = 'p-3 hover:bg-slate-700 cursor-pointer flex justify-between items-center rounded-md border-b border-slate-700/50 last:border-0';
+                item.innerHTML = `
+                    <div>
+                        <span class="font-bold text-blue-400">${quote.symbol}</span>
+                        <span class="text-sm text-slate-400 ml-2">${quote.shortname || quote.longname || ''}</span>
+                    </div>
+                    <span class="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded">${quote.exchDisp || quote.exchange}</span>
+                `;
+                item.addEventListener('click', () => {
+                    UI.searchInput.value = quote.symbol;
+                    suggestionsDiv.classList.add('hidden');
+                    handleSearch();
+                });
+                listDiv.appendChild(item);
+            });
+            suggestionsDiv.classList.remove('hidden');
+        } else {
+            suggestionsDiv.classList.add('hidden');
+        }
+    } catch (err) {
+        console.error("Autocomplete error:", err);
+    }
 }
