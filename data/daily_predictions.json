@@ -14,7 +14,7 @@
       "ema8": 24425.531526290986,
       "ema13": 24439.024113580657,
       "ema21": 24446.06348030129,
-      "pcr": 0.8867809664451839,
+      "pcr": 0.7369468552318079,
       "pcr_sentiment": "NEUTRAL",
       "vol_spike": false,
       "trend": "Bearish"
@@ -42,15 +42,15 @@
       "ema8": 58256.08458298494,
       "ema13": 58283.56358041158,
       "ema21": 58305.008822514166,
-      "pcr": 1.017713010143742,
-      "pcr_sentiment": "NEUTRAL",
+      "pcr": 1.34281375612511,
+      "pcr_sentiment": "BULLISH",
       "vol_spike": false,
       "trend": "Bearish"
     },
     "prediction": {
       "signal_text": "NO TRADE (Choppy/Sideways Market)",
       "direction": "NEUTRAL",
-      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
       "target": 0.0,
       "stop_loss": 0.0
     }
@@ -70,7 +70,7 @@
       "ema8": 27979.13836390896,
       "ema13": 27969.768058550853,
       "ema21": 27914.370920718062,
-      "pcr": 1.0197840163221912,
+      "pcr": 0.8382955279252298,
       "pcr_sentiment": "NEUTRAL",
       "vol_spike": false,
       "trend": "Bullish"
@@ -98,7 +98,7 @@
       "ema8": 78313.18469482522,
       "ema13": 78348.56683211484,
       "ema21": 78366.0086345148,
-      "pcr": 1.4156765386505321,
+      "pcr": 1.4636935155948732,
       "pcr_sentiment": "BULLISH",
       "vol_spike": false,
       "trend": "Bearish"
@@ -126,15 +126,15 @@
       "ema8": 1311.3712390953242,
       "ema13": 1312.7391440267481,
       "ema21": 1313.9634325903737,
-      "pcr": 1.047777783224535,
-      "pcr_sentiment": "NEUTRAL",
+      "pcr": 1.3105702481245567,
+      "pcr_sentiment": "BULLISH",
       "vol_spike": true,
       "trend": "Bearish"
     },
     "prediction": {
       "signal_text": "NO TRADE (Choppy/Sideways Market)",
       "direction": "NEUTRAL",
-      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': True, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': True, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
       "target": 0.0,
       "stop_loss": 0.0
     }
@@ -154,7 +154,7 @@
       "ema8": 2099.565762471499,
       "ema13": 2099.3623360979973,
       "ema21": 2096.9372133344173,
-      "pcr": 0.8847318010516798,
+      "pcr": 1.0622181493765286,
       "pcr_sentiment": "NEUTRAL",
       "vol_spike": true,
       "trend": "Bullish"
@@ -182,7 +182,7 @@
       "ema8": 830.6350794224256,
       "ema13": 831.4373090047275,
       "ema21": 831.6861099427034,
-      "pcr": 0.6485025828224242,
+      "pcr": 0.8366942986900104,
       "pcr_sentiment": "NEUTRAL",
       "vol_spike": false,
       "trend": "Bearish"
@@ -210,15 +210,15 @@
       "ema8": 1074.5880822549877,
       "ema13": 1074.7994472008768,
       "ema21": 1072.560644205948,
-      "pcr": 0.8162558288259901,
-      "pcr_sentiment": "NEUTRAL",
+      "pcr": 1.376561364717284,
+      "pcr_sentiment": "BULLISH",
       "vol_spike": false,
       "trend": "Sideways"
     },
     "prediction": {
       "signal_text": "NO TRADE (Choppy/Sideways Market)",
       "direction": "NEUTRAL",
-      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.False_, 'p2_vol_spike': False, 'bullish_p3': True, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
       "target": 0.0,
       "stop_loss": 0.0
     }
@@ -238,15 +238,15 @@
       "ema8": 1415.1919375411535,
       "ema13": 1416.8812383365687,
       "ema21": 1418.7954710169429,
-      "pcr": 0.8649994252473313,
-      "pcr_sentiment": "NEUTRAL",
+      "pcr": 0.5152269053926288,
+      "pcr_sentiment": "BEARISH",
       "vol_spike": false,
       "trend": "Bearish"
     },
     "prediction": {
       "signal_text": "NO TRADE (Choppy/Sideways Market)",
       "direction": "NEUTRAL",
-      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "pillars_aligned": "{'bullish_p1': np.False_, 'bearish_p1': np.True_, 'p2_vol_spike': False, 'bullish_p3': False, 'bearish_p3': True, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
       "target": 0.0,
       "stop_loss": 0.0
     }
@@ -266,15 +266,15 @@
       "ema8": 1243.8497886582672,
       "ema13": 1241.6288594158884,
       "ema21": 1237.692877710076,
-      "pcr": 0.6185508798326177,
-      "pcr_sentiment": "NEUTRAL",
+      "pcr": 0.5457810780259167,
+      "pcr_sentiment": "BEARISH",
       "vol_spike": true,
       "trend": "Bullish"
     },
     "prediction": {
       "signal_text": "NO TRADE (Choppy/Sideways Market)",
       "direction": "NEUTRAL",
-      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': True, 'bullish_p3': False, 'bearish_p3': False, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
+      "pillars_aligned": "{'bullish_p1': np.True_, 'bearish_p1': np.False_, 'p2_vol_spike': True, 'bullish_p3': False, 'bearish_p3': True, 'bullish_p4': np.False_, 'bearish_p4': np.False_}",
       "target": 0.0,
       "stop_loss": 0.0
     }

@@ -20,22 +20,29 @@ def generate_predictions():
         '^CNXIT': 'NIFTY IT',
         '^BSESN': 'BSE SENSEX'
     }
-    
-    # Try to fetch NIFTY 500 list from Wikipedia
+    # Fetch all stocks from official NSE Equities List
     try:
         import requests
-        url = 'https://en.wikipedia.org/wiki/NIFTY_500'
-        html = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}).text
-        tables = pd.read_html(html)
-        nifty500_df = tables[2] # Usually the third table contains the constituents
-        for _, row in nifty500_df.iterrows():
-            symbol = str(row['Symbol']) + '.NS'
-            name = str(row['Company Name'])
-            if symbol not in stocks:
-                stocks[symbol] = name
+        import io
+        url = 'https://nsearchives.nseindia.com/content/equities/EQUITY_L.csv'
+        r = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
+        if r.status_code == 200:
+            df_nse = pd.read_csv(io.StringIO(r.text))
+            # Filter for normal equities
+            if ' SERIES' in df_nse.columns:
+                df_nse = df_nse[df_nse[' SERIES'] == 'EQ']
+            
+            # For speed and API limits, we'll take the top 500 stocks by alphabetical or just take the whole list
+            # We'll take the first 800 to ensure broad market coverage while keeping GitHub Action time reasonable (~15 mins)
+            for _, row in df_nse.head(800).iterrows():
+                symbol = str(row['SYMBOL']).strip() + '.NS'
+                name = str(row['NAME OF COMPANY']).strip()
+                if symbol not in stocks:
+                    stocks[symbol] = name
+        else:
+            print(f"Failed to fetch NSE list. Status: {r.status_code}")
     except Exception as e:
-        print("Could not fetch NIFTY 500, falling back to top stocks:", e)
-        # Fallback list if wiki fails
+        print("Could not fetch NSE Official list, falling back to top stocks.")
         fallback_stocks = ['RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFY.NS', 'ICICIBANK.NS', 'ZOMATO.NS', 'PAYTM.NS', 'TATAMOTORS.NS']
         for s in fallback_stocks:
             stocks[s] = s.split('.')[0]
