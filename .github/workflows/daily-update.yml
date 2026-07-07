@@ -2,8 +2,8 @@ name: Daily Stock Data Pipeline
 
 on:
   schedule:
-    # Run at 00:00 UTC every day
-    - cron: '0 0 * * *'
+    # Run at 00:00 and 12:00 UTC every day
+    - cron: '0 0,12 * * *'
   workflow_dispatch:
 
 jobs:
@@ -27,9 +27,9 @@ jobs:
         pip install -r requirements_twelve_data.txt
 
     - name: Run Market Analysis
-      env:
-        TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
-      run: python run_analysis.py
+      run: |
+        pip install pandas pandas-ta yfinance scikit-learn
+        python quant_engine/generate_json.py
 
     - name: Force Daily Update Timestamp
       run: |
