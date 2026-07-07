@@ -23,7 +23,10 @@ def generate_predictions():
     
     # Try to fetch NIFTY 500 list from Wikipedia
     try:
-        tables = pd.read_html('https://en.wikipedia.org/wiki/NIFTY_500')
+        import requests
+        url = 'https://en.wikipedia.org/wiki/NIFTY_500'
+        html = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'}).text
+        tables = pd.read_html(html)
         nifty500_df = tables[2] # Usually the third table contains the constituents
         for _, row in nifty500_df.iterrows():
             symbol = str(row['Symbol']) + '.NS'

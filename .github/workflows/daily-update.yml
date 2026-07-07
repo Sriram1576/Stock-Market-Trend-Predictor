@@ -28,7 +28,7 @@ jobs:
 
     - name: Run Market Analysis (4-Pillar Engine)
       run: |
-        pip install pandas pandas-ta yfinance scikit-learn lxml html5lib
+        pip install pandas pandas-ta yfinance scikit-learn lxml html5lib requests
         python quant_engine/generate_json.py
 
     - name: Force Daily Update Timestamp
