@@ -22,7 +22,7 @@ const UI = {
 let data = {};
 
 // Load data first, then init app
-fetch('data/daily_predictions.json')
+fetch('data/daily_predictions.json?t=' + Date.now())
     .then(response => response.json())
     .then(json => {
         data = json;
