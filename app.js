@@ -1,6 +1,6 @@
 // Modernized app.js connecting UI-UX-Pro-Max to the 4-Pillar Algorithmic Pipeline
 document.addEventListener('DOMContentLoaded', () => {
-    initApp();
+    // We will initialize after data is fetched
 });
 
 const UI = {
@@ -18,6 +18,21 @@ const UI = {
     chartRefreshBtn: document.getElementById('refresh-chart')
 };
 
+// Global Data Cache
+let data = {};
+
+// Load data first, then init app
+fetch('data/daily_predictions.json')
+    .then(response => response.json())
+    .then(json => {
+        data = json;
+        document.getElementById('last-update').innerText = "Live";
+        initApp(); // Start app only after cache is loaded!
+    })
+    .catch(err => {
+        console.error("Failed to load local cache", err);
+        initApp(); // Start app anyway to allow dynamic fetching
+    });
 let chartInstance = null;
 
 async function initApp() {
@@ -72,20 +87,14 @@ async function handleSearch() {
     await simulateProgress();
 
     try {
-        let stockData = null;
-        try {
-            const response = await fetch('data/daily_predictions.json?t=' + Date.now());
-            if (response.ok) {
-                const data = await response.json();
-                stockData = data[symbol] || data[symbol.replace('.BSE', '.NS')] || data[symbol + '.NS'];
-            }
-        } catch(e) {
-            console.log("Local JSON failed, falling back to dynamic fetch");
+        let stockData = data[symbol];
+        if (!stockData) {
+            // try appending .NS or removing it
+            stockData = data[symbol + '.NS'] || data[symbol.replace('.NS', '')];
         }
 
         if (!stockData) {
-            UI.progressMsg.innerText = "Stock not found in cache. Fetching dynamically from exchange...";
-            stockData = await fetchDynamicYahooData(symbol);
+            throw new Error(`Stock ${symbol} not found in our NIFTY 500 database. We are currently tracking the top 500 most active stocks.`);
         }
 
         renderDashboard(symbol, stockData);
@@ -103,105 +112,6 @@ async function handleSearch() {
         document.getElementById('retry-message').innerText = error.message;
         document.getElementById('api-status').innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 mr-2"></span>Offline';
         document.getElementById('api-status').className = 'status-value negative flex items-center text-red-400';
-    }
-}
-
-async function fetchDynamicYahooData(symbol) {
-    const sym = symbol.includes('.') || symbol.startsWith('^') ? symbol : symbol + '.NS';
-    const url = `https://query1.finance.yahoo.com/v8/finance/chart/${sym}?interval=15m&range=5d`;
-    
-    // Yahoo heavily blocks allorigins. Use a chain of reliable proxies for maximum uptime
-    const proxies = [
-        `https://corsproxy.io/?${encodeURIComponent(url)}`,
-        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
-    ];
-
-    let res = null;
-    let json = null;
-    
-    for (const proxyUrl of proxies) {
-        try {
-            res = await fetch(proxyUrl);
-            if (res.ok) {
-                json = await res.json();
-                if (json.chart && json.chart.result) break; // success
-            }
-        } catch (e) {
-            console.log("Proxy failed:", proxyUrl);
-        }
-    }
-
-    if (!json || !json.chart || !json.chart.result) {
-        throw new Error(`Could not fetch live data for ${symbol}. The exchange API may be blocking proxies. Please try again later.`);
-    }
-    
-    const result = json.chart.result[0];
-    const quote = result.indicators.quote[0];
-    const closes = quote.close.filter(c => c !== null);
-    const volumes = quote.volume.filter(v => v !== null);
-    
-    if(closes.length === 0) throw new Error("No recent price data available for this stock.");
-    
-    const currentPrice = closes[closes.length - 1];
-    const openPrice = closes[0];
-    const change = currentPrice - openPrice;
-    
-    // Quick EMA calc
-    const ema = (data, period) => {
-        if(data.length === 0) return 0;
-        let k = 2 / (period + 1);
-        let emaArr = [data[0]];
-        for(let i=1; i<data.length; i++) {
-            emaArr.push(data[i] * k + emaArr[i-1] * (1-k));
-        }
-        return emaArr[emaArr.length-1];
-    };
-    
-    const ema13 = ema(closes, 13);
-    const ema21 = ema(closes, 21);
-    const ema8 = ema(closes, 8);
-    
-    const isBull = ema8 > ema13 && ema13 > ema21;
-    const isBear = ema8 < ema13 && ema13 < ema21;
-    const trend = isBull ? "Bullish" : (isBear ? "Bearish" : "Sideways");
-    
-    const avgVol = volumes.length > 0 ? volumes.reduce((a,b)=>a+b,0)/volumes.length : 0;
-    const volSpike = volumes.length > 0 ? volumes[volumes.length-1] > avgVol * 1.5 : false;
-    
-    let signal = "NO TRADE (Dynamic)";
-    let direction = "NEUTRAL";
-    if (isBull && volSpike) { signal = "BUY CALL (CE)"; direction = "BULLISH"; }
-    else if (isBear && volSpike) { signal = "BUY PUT (PE)"; direction = "BEARISH"; }
-    
-    const highs = quote.high.filter(h=>h!==null);
-    const lows = quote.low.filter(l=>l!==null);
-
-    return {
-        name: sym,
-        quote: {
-            price: currentPrice,
-            open: openPrice,
-            high: highs.length > 0 ? Math.max(...highs) : currentPrice,
-            low: lows.length > 0 ? Math.min(...lows) : currentPrice,
-            change: change,
-            change_percent: (change/openPrice)*100,
-            volume: volumes.length > 0 ? volumes[volumes.length-1] : 0
-        },
-        technical: {
-            ema8, ema13, ema21,
-            pcr: 1.0, // PCR requires option chain access not available via basic chart endpoint
-            pcr_sentiment: "NEUTRAL",
-            vol_spike: volSpike,
-            trend: trend
-        },
-        prediction: {
-            signal_text: signal,
-            direction: direction,
-            pillars_aligned: isBull || isBear ? "True, True, False, True" : "False",
-            target: currentPrice * (isBull ? 1.02 : (isBear ? 0.98 : 0)),
-            stop_loss: currentPrice * (isBull ? 0.99 : (isBear ? 1.01 : 0))
-        }
-    };
 }
 
 function renderDashboard(symbol, data) {
@@ -328,49 +238,43 @@ function debounce(func, wait) {
 }
 
 async function handleAutocomplete(e) {
-    const query = e.target.value.trim();
+    const query = e.target.value.trim().toUpperCase();
     const suggestionsDiv = document.getElementById('search-suggestions');
     const listDiv = document.getElementById('suggestions-list');
     
-    if (query.length < 2) {
+    if (query.length < 1) {
         suggestionsDiv.classList.add('hidden');
         return;
     }
 
-    try {
-        const url = `https://query2.finance.yahoo.com/v1/finance/search?q=${encodeURIComponent(query)}&quotesCount=5&newsCount=0`;
-        const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`;
-        const res = await fetch(proxyUrl);
-        const data = await res.json();
+    listDiv.innerHTML = '';
+    
+    // Search the local cache (NIFTY 500)
+    const matches = Object.keys(data).filter(key => 
+        key.toUpperCase().includes(query) || 
+        (data[key].name && data[key].name.toUpperCase().includes(query))
+    );
 
-        listDiv.innerHTML = '';
-        if (data.quotes && data.quotes.length > 0) {
-            // Filter primarily for Indian stocks (.NS or .BO)
-            let matches = data.quotes.filter(q => q.symbol.endsWith('.NS') || q.symbol.endsWith('.BO') || q.symbol.startsWith('^'));
-            if(matches.length === 0) matches = data.quotes; // Fallback to all matches
-
-            matches.slice(0, 5).forEach(quote => {
-                const item = document.createElement('div');
-                item.className = 'p-3 hover:bg-slate-700 cursor-pointer flex justify-between items-center rounded-md border-b border-slate-700/50 last:border-0';
-                item.innerHTML = `
-                    <div>
-                        <span class="font-bold text-blue-400">${quote.symbol}</span>
-                        <span class="text-sm text-slate-400 ml-2">${quote.shortname || quote.longname || ''}</span>
-                    </div>
-                    <span class="text-xs text-slate-500 bg-slate-800 px-2 py-1 rounded">${quote.exchDisp || quote.exchange}</span>
-                `;
-                item.addEventListener('click', () => {
-                    UI.searchInput.value = quote.symbol;
-                    suggestionsDiv.classList.add('hidden');
-                    handleSearch();
-                });
-                listDiv.appendChild(item);
+    if (matches.length > 0) {
+        matches.slice(0, 8).forEach(symbol => {
+            const name = data[symbol].name || symbol;
+            const item = document.createElement('div');
+            item.className = 'p-3 hover:bg-slate-700 cursor-pointer flex justify-between items-center rounded-md border-b border-slate-700/50 last:border-0';
+            item.innerHTML = `
+                <div>
+                    <span class="font-bold text-blue-400">${symbol}</span>
+                    <span class="text-sm text-slate-400 ml-2">${name}</span>
+                </div>
+            `;
+            item.addEventListener('click', () => {
+                UI.searchInput.value = symbol;
+                suggestionsDiv.classList.add('hidden');
+                handleSearch();
             });
-            suggestionsDiv.classList.remove('hidden');
-        } else {
-            suggestionsDiv.classList.add('hidden');
-        }
-    } catch (err) {
-        console.error("Autocomplete error:", err);
+            listDiv.appendChild(item);
+        });
+        suggestionsDiv.classList.remove('hidden');
+    } else {
+        suggestionsDiv.classList.add('hidden');
     }
 }

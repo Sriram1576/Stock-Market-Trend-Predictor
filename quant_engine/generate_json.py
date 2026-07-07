@@ -18,35 +18,24 @@ def generate_predictions():
         '^NSEI': 'NIFTY 50',
         '^NSEBANK': 'NIFTY BANK',
         '^CNXIT': 'NIFTY IT',
-        '^BSESN': 'BSE SENSEX',
-        
-        # NIFTY 50 Stocks
-        'RELIANCE.NS': 'Reliance Industries',
-        'TCS.NS': 'Tata Consultancy Services',
-        'HDFCBANK.NS': 'HDFC Bank',
-        'ICICIBANK.NS': 'ICICI Bank',
-        'INFY.NS': 'Infosys',
-        'ITC.NS': 'ITC Limited',
-        'SBIN.NS': 'State Bank of India',
-        'BHARTIARTL.NS': 'Bharti Airtel',
-        'LARSEN.NS': 'Larsen & Toubro',
-        'BAJFINANCE.NS': 'Bajaj Finance',
-        'KOTAKBANK.NS': 'Kotak Mahindra Bank',
-        'AXISBANK.NS': 'Axis Bank',
-        'ASIANPAINT.NS': 'Asian Paints',
-        'HINDUNILVR.NS': 'Hindustan Unilever',
-        'MARUTI.NS': 'Maruti Suzuki',
-        'SUNPHARMA.NS': 'Sun Pharma',
-        'TITAN.NS': 'Titan Company',
-        'TATASTEEL.NS': 'Tata Steel',
-        'NTPC.NS': 'NTPC',
-        'HCLTECH.NS': 'HCL Technologies',
-        'TATAMOTORS.NS': 'Tata Motors',
-        'WIPRO.NS': 'Wipro',
-        'ONGC.NS': 'ONGC',
-        'TECHM.NS': 'Tech Mahindra',
-        'ADANIENT.NS': 'Adani Enterprises'
+        '^BSESN': 'BSE SENSEX'
     }
+    
+    # Try to fetch NIFTY 500 list from Wikipedia
+    try:
+        tables = pd.read_html('https://en.wikipedia.org/wiki/NIFTY_500')
+        nifty500_df = tables[2] # Usually the third table contains the constituents
+        for _, row in nifty500_df.iterrows():
+            symbol = str(row['Symbol']) + '.NS'
+            name = str(row['Company Name'])
+            if symbol not in stocks:
+                stocks[symbol] = name
+    except Exception as e:
+        print("Could not fetch NIFTY 500, falling back to top stocks:", e)
+        # Fallback list if wiki fails
+        fallback_stocks = ['RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFY.NS', 'ICICIBANK.NS', 'ZOMATO.NS', 'PAYTM.NS', 'TATAMOTORS.NS']
+        for s in fallback_stocks:
+            stocks[s] = s.split('.')[0]
 
     results = {}
     data_pipeline = DataIngestionPipeline()
