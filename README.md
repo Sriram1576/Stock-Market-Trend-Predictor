@@ -4,11 +4,12 @@ A comprehensive stock market analysis and prediction tool that leverages real-ti
 
 ## 🚀 Features
 
-- **Real-Time Data**: Integrates with the Twelve Data API to fetch real-time stock quotes and historical time series data.
-- **Technical Analysis**: Automatically calculates key technical indicators including EMA (13 & 21), MACD, and RSI.
+- **Automated Daily NIFTY 500 Pipeline**: Powered by GitHub Actions, the engine automatically scrapes and analyzes the top 800 NSE India stocks twice daily to provide real-time caching without rate limits.
+- **Real-Time Data**: Integrates with Yahoo Finance and Twelve Data API to fetch real-time stock quotes and historical time series data.
+- **Technical Analysis**: Automatically calculates key technical indicators including EMA (8, 13 & 21), MACD, and RSI.
 - **Machine Learning Predictions**: Utilizes Random Forest and Logistic Regression models trained on historical data and technical indicators to predict next-day price direction (UP/DOWN) and provide a confidence score.
 - **Feature Importance**: Analyzes and ranks which technical indicators most strongly influence the price predictions.
-- **Web Interface**: Includes a responsive frontend (`index.html`, `style.css`, `app.js`) to visually present the predictions and stock data.
+- **Web Interface**: Includes a responsive, premium glassmorphic frontend (`index.html`, `style.css`, `app.js`) to visually present the predictions and stock data with instant autocomplete.
 
 ## 🛠️ Technology Stack
 
