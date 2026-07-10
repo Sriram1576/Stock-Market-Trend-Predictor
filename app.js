@@ -27,6 +27,21 @@ fetch('data/daily_predictions.json?t=' + Date.now())
     .then(json => {
         data = json;
         document.getElementById('last-update').innerText = "Live";
+        
+        // Update API Status to Online
+        const apiStatus = document.getElementById('api-status');
+        if (apiStatus) {
+            apiStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2"></span>Online';
+            apiStatus.className = 'status-value high flex items-center text-emerald-400';
+        }
+        
+        // Update Sync Time
+        const syncTime = document.getElementById('sync-time');
+        if (syncTime) {
+            const now = new Date();
+            syncTime.innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        }
+        
         initApp(); // Start app only after cache is loaded!
     })
     .catch(err => {
