@@ -127,6 +127,7 @@ async function handleSearch() {
         document.getElementById('retry-message').innerText = error.message;
         document.getElementById('api-status').innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500 mr-2"></span>Offline';
         document.getElementById('api-status').className = 'status-value negative flex items-center text-red-400';
+    }
 }
 
 function renderDashboard(symbol, data) {
