@@ -24,7 +24,7 @@ jobs:
     - name: Run Market Analysis (4-Pillar Engine)
       run: |
         python -m pip install --upgrade pip
-        pip install pandas pandas-ta yfinance scikit-learn lxml html5lib requests
+        pip install pandas yfinance lxml html5lib requests
         python quant_engine/generate_json.py
 
     - name: Force Daily Update Timestamp
@@ -35,7 +35,7 @@ jobs:
     - name: Commit and Push Changes
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
-        commit_message: "🤖 chore: update daily market predictions"
+        commit_message: "?? chore: update daily market predictions"
         commit_user_name: "${{ github.actor }}"
         commit_user_email: "${{ github.actor }}@users.noreply.github.com"
         commit_author: "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
