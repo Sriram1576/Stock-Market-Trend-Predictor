@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import time
 from datetime import datetime
 import pandas as pd
 
@@ -34,7 +35,7 @@ def generate_predictions():
             
             # For speed and API limits, we'll take the top 500 stocks by alphabetical or just take the whole list
             # We'll take the first 800 to ensure broad market coverage while keeping GitHub Action time reasonable (~15 mins)
-            for _, row in df_nse.head(800).iterrows():
+            for _, row in df_nse.iterrows():
                 symbol = str(row['SYMBOL']).strip() + '.NS'
                 name = str(row['NAME OF COMPANY']).strip()
                 if symbol not in stocks:
@@ -134,6 +135,8 @@ def generate_predictions():
             }
         except Exception as e:
             print(f"Error processing {symbol}: {e}")
+        
+        time.sleep(0.2)
 
     # Ensure parent dir exists
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
