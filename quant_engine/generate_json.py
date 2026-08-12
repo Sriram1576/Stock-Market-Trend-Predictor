@@ -21,29 +21,24 @@ def generate_predictions():
         '^CNXIT': 'NIFTY IT',
         '^BSESN': 'BSE SENSEX'
     }
-    # Fetch all stocks from official NSE Equities List
+    # Fetch all stocks from NIFTY 500 List
     try:
         import requests
         import io
-        url = 'https://nsearchives.nseindia.com/content/equities/EQUITY_L.csv'
+        url = 'https://nsearchives.nseindia.com/content/indices/ind_nifty500list.csv'
         r = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
         if r.status_code == 200:
             df_nse = pd.read_csv(io.StringIO(r.text))
-            # Filter for normal equities
-            if ' SERIES' in df_nse.columns:
-                df_nse = df_nse[df_nse[' SERIES'] == 'EQ']
             
-            # For speed and API limits, we'll take the top 500 stocks by alphabetical or just take the whole list
-            # We'll take the first 800 to ensure broad market coverage while keeping GitHub Action time reasonable (~15 mins)
             for _, row in df_nse.iterrows():
-                symbol = str(row['SYMBOL']).strip() + '.NS'
-                name = str(row['NAME OF COMPANY']).strip()
+                symbol = str(row['Symbol']).strip() + '.NS'
+                name = str(row['Company Name']).strip()
                 if symbol not in stocks:
                     stocks[symbol] = name
         else:
             print(f"Failed to fetch NSE list. Status: {r.status_code}")
     except Exception as e:
-        print("Could not fetch NSE Official list, falling back to top stocks.")
+        print("Could not fetch NIFTY 500 list, falling back to top stocks.")
         fallback_stocks = ['RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'INFY.NS', 'ICICIBANK.NS', 'ZOMATO.NS', 'PAYTM.NS', 'TATAMOTORS.NS']
         for s in fallback_stocks:
             stocks[s] = s.split('.')[0]
@@ -53,10 +48,21 @@ def generate_predictions():
 
     for symbol in stocks.keys():
         print(f"Processing {symbol}...")
-        try:
-            df = data_pipeline.fetch_15m_data(symbol=symbol, days=5)
-            if df is None or df.empty:
-                continue
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                df = data_pipeline.fetch_15m_data(symbol=symbol, days=5)
+                if df is None or df.empty:
+                    # If empty due to rate limit, we pause and retry
+                    time.sleep(2)
+                    continue
+                break
+            except Exception as e:
+                print(f"Retry {attempt+1} for {symbol} due to: {e}")
+                time.sleep(3)
+        
+        if df is None or df.empty:
+            continue
 
             # Feature Engineering
             feature_engine = FeatureEngineeringEngine(df)
