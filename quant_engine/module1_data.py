@@ -13,7 +13,9 @@ from SmartApi import SmartConnect
 
 class DataIngestionPipeline:
     def __init__(self):
-        load_dotenv(r'D:\Business\IIT project\.env')
+        # Load .env from the parent directory
+        dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+        load_dotenv(dotenv_path)
         self.api = None
         self.token_map = {}
         
