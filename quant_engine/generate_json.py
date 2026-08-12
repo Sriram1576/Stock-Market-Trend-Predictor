@@ -136,7 +136,7 @@ def generate_predictions():
         except Exception as e:
             print(f"Error processing {symbol}: {e}")
         
-        time.sleep(0.2)
+        time.sleep(0.4)
 
     # Ensure parent dir exists
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
