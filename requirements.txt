@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+smartapi-python
+pandas
+pyotp
+python-dotenv

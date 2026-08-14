@@ -21,33 +21,12 @@ const UI = {
 // Global Data Cache
 let data = {};
 
-// Load data first, then init app
-fetch('data/daily_predictions.json?t=' + Date.now())
-    .then(response => response.json())
-    .then(json => {
-        data = json;
-        document.getElementById('last-update').innerText = "Live";
-        
-        // Update API Status to Online
-        const apiStatus = document.getElementById('api-status');
-        if (apiStatus) {
-            apiStatus.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse mr-2"></span>Online';
-            apiStatus.className = 'status-value high flex items-center text-emerald-400';
-        }
-        
-        // Update Sync Time
-        const syncTime = document.getElementById('sync-time');
-        if (syncTime) {
-            const now = new Date();
-            syncTime.innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        }
-        
-        initApp(); // Start app only after cache is loaded!
-    })
-    .catch(err => {
-        console.error("Failed to load local cache", err);
-        initApp(); // Start app anyway to allow dynamic fetching
-    });
+const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+    ? 'http://localhost:8000' 
+    : 'https://your-future-backend-url.onrender.com';
+
+// Start app immediately
+initApp();
 let chartInstance = null;
 
 async function initApp() {
@@ -102,15 +81,12 @@ async function handleSearch() {
     await simulateProgress();
 
     try {
-        let stockData = data[symbol];
-        if (!stockData) {
-            // try appending .NS or removing it
-            stockData = data[symbol + '.NS'] || data[symbol.replace('.NS', '')];
+        const response = await fetch(`/api/stock/${symbol}`);
+        if (!response.ok) {
+            throw new Error(`Stock ${symbol} not found or rate limited by Angel One.`);
         }
-
-        if (!stockData) {
-            throw new Error(`Stock ${symbol} not found in our NIFTY 500 database. We are currently tracking the top 500 most active stocks.`);
-        }
+        
+        let stockData = await response.json();
 
         renderDashboard(symbol, stockData);
         
@@ -175,21 +151,23 @@ function renderDashboard(symbol, data) {
     document.getElementById('target-1').innerText = pred.target > 0 ? `₹${pred.target.toFixed(2)}` : 'N/A';
     document.getElementById('stop-loss').innerText = pred.stop_loss > 0 ? `₹${pred.stop_loss.toFixed(2)}` : 'N/A';
     
-    renderChart(symbol, quote);
+    renderChart(symbol, quote, data.candles);
 }
 
-function renderChart(symbol, quote) {
+function renderChart(symbol, quote, candles) {
     const ctx = document.getElementById('price-chart').getContext('2d');
     if (chartInstance) chartInstance.destroy();
 
-    // Generate random path ending at quote.price for aesthetic
+    // Use REAL historical candles from our backend
     let prices = [];
-    let cur = quote.open;
-    for(let i=0; i<30; i++) {
-        prices.push(cur);
-        cur += (Math.random() - 0.5) * (quote.high - quote.low) * 0.5;
+    let labels = [];
+    if (candles && candles.length > 0) {
+        prices = candles.map(c => c.close);
+        labels = candles.map(c => c.time.split(' ')[1]); // get HH:MM
+    } else {
+        prices = [quote.open, quote.price]; // fallback
+        labels = ['Open', 'Now'];
     }
-    prices.push(quote.price); // end at exact current price
 
     const isBull = quote.change >= 0;
     const color = isBull ? '#10b981' : '#ef4444'; // Emerald or Red
@@ -197,7 +175,7 @@ function renderChart(symbol, quote) {
     chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: new Array(31).fill(''),
+            labels: labels,
             datasets: [{
                 label: symbol,
                 data: prices,

@@ -4,6 +4,7 @@ Updated module1_data.py to use Angel One SmartAPI
 
 import os
 import json
+import tempfile
 import urllib.request
 import pandas as pd
 from datetime import datetime, timedelta
@@ -15,6 +16,8 @@ class DataIngestionPipeline:
     def __init__(self):
         # Load .env from the parent directory
         dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+        # Vercel Serverless Functions have read-only filesystems. We MUST use the system temp directory.
+        self.token_file = os.path.join(tempfile.gettempdir(), 'angel_tokens.json')
         load_dotenv(dotenv_path)
         self.api = None
         self.token_map = {}
