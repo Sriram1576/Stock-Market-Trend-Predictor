@@ -14,10 +14,10 @@ from SmartApi import SmartConnect
 
 class DataIngestionPipeline:
     def __init__(self):
-        # Load .env from the parent directory
+        # Load bundled tokens directly from the repository
+        self.token_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'angel_tokens.json')
+        # Load .env from the parent directory (for local testing, Vercel injects natively)
         dotenv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
-        # Vercel Serverless Functions have read-only filesystems. We MUST use the system temp directory.
-        self.token_file = os.path.join(tempfile.gettempdir(), 'angel_tokens.json')
         load_dotenv(dotenv_path)
         self.api = None
         self.token_map = {}
@@ -50,34 +50,33 @@ class DataIngestionPipeline:
 
     def load_tokens(self):
         """Download and cache the Angel One symbol tokens."""
-        token_file = 'angel_tokens.json'
+        # token_file = 'angel_tokens.json'
         
-        # Download the file if it doesn't exist or is older than 1 day
-        download = True
-        if os.path.exists(token_file):
-            file_time = datetime.fromtimestamp(os.path.getmtime(token_file))
-            if datetime.now() - file_time < timedelta(days=1):
-                download = False
+        # # Download the file if it doesn't exist or is older than 1 day
+        # download = True
+        # if os.path.exists(token_file):
+        #     file_time = datetime.fromtimestamp(os.path.getmtime(token_file))
+        #     if datetime.now() - file_time < timedelta(days=1):
+        #         download = False
                 
-        if download:
-            print("Downloading latest Angel One instrument tokens...")
-            url = "https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json"
-            try:
-                urllib.request.urlretrieve(url, token_file)
-            except Exception as e:
-                print(f"Failed to download tokens: {e}")
+        # if download:
+        #     print("Downloading latest Angel One instrument tokens...")
+        #     url = "https://margincalculator.angelbroking.com/OpenAPI_File/files/OpenAPIScripMaster.json"
+        #     try:
+        #         urllib.request.urlretrieve(url, token_file)
+        #     except Exception as e:
+        #         print(f"Failed to download tokens: {e}")
                 
         # Load into dictionary for fast lookup
-        if os.path.exists(token_file):
-            try:
-                with open(token_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    for item in data:
-                        if item['exch_seg'] == 'NSE':
-                            # Store by symbol (e.g., RELIANCE-EQ)
-                            self.token_map[item['symbol']] = item['token']
-            except Exception as e:
-                print(f"Error reading token file: {e}")
+        try:
+            with open(self.token_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                for item in data:
+                    if item['exch_seg'] == 'NSE':
+                        # Store by symbol (e.g., RELIANCE-EQ)
+                        self.token_map[item['symbol']] = item['token']
+        except Exception as e:
+            print(f"Error reading token file: {e}")
 
     def get_token(self, symbol):
         """Map standard symbols to Angel One tokens."""
